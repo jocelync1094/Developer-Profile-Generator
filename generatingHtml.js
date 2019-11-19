@@ -173,13 +173,7 @@ const colors = {
            }
         </style>
     </head>
-    <body>
-        <div class = "wrapper">
-
-        </div>
-    
-    <script src="./index.js"></script>
-    </body>`
+    <body>`
           }
 
           module.exports = {
