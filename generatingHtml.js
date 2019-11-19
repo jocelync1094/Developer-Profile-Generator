@@ -173,7 +173,8 @@ const colors = {
            }
         </style>
     </head>
-    <body>`
+    <body>
+        `
           }
 
           module.exports = {

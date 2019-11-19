@@ -33,18 +33,15 @@ inquirer
 
         axios.get(queryUrl).then(res =>{
             let photoHead = photoHeaderContainer(res);
-            html = html + photoHead;
+            let stats = statsContainer(res);
+            html = html + photoHead + stats;
             writeToFile(`${username}Profile.html`,html)
         .then(function(data){
-            console.log("Successfully saved profile.")
+            console.log("Successfully saved profile.",data)
         }).catch(function(err){
-            console.log(er)
+            console.log(err)
         });
-            const picture = res.data.avatar_url;
-           
-            const gitHubProfile = res.data.html_url;
-            const blog = res.data.blog;
-            const location = res.data.location;
+            
             const bio = res.data.bio;
             const numPublicRepo = res.data.public_repos;
             const followers = res.data.followers;
@@ -58,9 +55,9 @@ inquirer
    
 function photoHeaderContainer (res){
     return `
-    <div class = "wrapper">
-        <div class = row>
-        <div class = photo-header col>
+    <div class = "wrapper" style="width:70%; margin:0 auto">
+        <div class = "row">
+        <div class = "photo-header col">
             <img src = ${res.data.avatar_url}, alt="self-photo">
             <h1> My name is ${res.data.name}. </h1>
             <h3> Currently ${res.data.company}.</h3>
@@ -71,8 +68,39 @@ function photoHeaderContainer (res){
             </div>
         </div>
         </div>
+    `
+}
+
+function statsContainer(res){
+    return `
+    <main>
+    <div class = container>
+        <h3 class="col">${res.data.bio}</h3>
+        <div class = "row">
+            <div class = "col card">
+                <h3>Public Repositories</h3>
+                <h4>${res.data.public_repos}</h4>
+            </div>
+            <div class = "col card">
+                <h3>Followers</h3>
+                <h4>${res.data.followers}</h4>
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "col card">
+                <h3>Git Hub Stars</h3>
+                <h4>0</h4>
+            </div>
+            <div class = "col card">
+                <h3>Following</h3>
+                <h4>${res.data.following}</h4>
+            </div>
+        </div>
     </div>
-    </body>`
+    </main>
+    </div>
+    </body>  `
+
 }
 async function getTotalStars(username){
     try{
