@@ -1,7 +1,7 @@
 // all the npm packages
 const fs = require("fs");
 const axios = require("axios");
-const util = require("util");
+var pdf = require('html-pdf');
 const inquirer = require("inquirer");
 const generatingHTML = require("./generatingHtml.js");
 
@@ -37,25 +37,26 @@ inquirer
             html = html + photoHead + stats;
             writeToFile(`${username}Profile.html`,html)
         .then(function(data){
-            console.log("Successfully saved profile.",data)
+            console.log("Successfully saved profile.")
+            let options = {format: "Letter"};
+            pdf.create(html).toFile(`./${username}Profile.pdf`, function(err, res) {
+                if (err) return console.log(err);
+                console.log(res); 
+              });
         }).catch(function(err){
             console.log(err)
+        });           
         });
-            
-            const bio = res.data.bio;
-            const numPublicRepo = res.data.public_repos;
-            const followers = res.data.followers;
-            const following = res.data.following;
-
-        })
-
     })
     .catch(err=>console.log(err));
+
+    
+ 
 
    
 function photoHeaderContainer (res){
     return `
-    <div class = "wrapper" style="width:70%; margin:0 auto">
+    <div class = "wrapper">>
         <div class = "row">
         <div class = "photo-header col">
             <img src = ${res.data.avatar_url}, alt="self-photo">
@@ -100,7 +101,6 @@ function statsContainer(res){
     </main>
     </div>
     </body>  `
-
 }
 async function getTotalStars(username){
     try{
@@ -125,7 +125,15 @@ function writeToFile(fileName, data) {
     });
 }
 
+function readFileAsync(path, encoding) {
+    return new Promise(function(resolve, reject) {
+      fs.readFile(path, encoding, function(err, data) {
+        if (err) {
+          return reject(err);
+        }
+  
+        resolve(data);
+      });
+    });
+  }
 
-// function init() {
-
-// init();
