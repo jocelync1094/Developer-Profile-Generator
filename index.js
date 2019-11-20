@@ -25,8 +25,6 @@ inquirer
         const username =answer.username
         const color = answer.color;
         let html = generatingHTML.generateHTML(answer);
-        // console.log(html)
-        
        
     
         const queryUrl = `https://api.github.com/users/${username}`
@@ -39,7 +37,7 @@ inquirer
         .then(function(data){
             console.log("Successfully saved profile.")
             let options = {format: "Letter"};
-            pdf.create(html).toFile(`./${username}Profile.pdf`, function(err, res) {
+            pdf.create(html,options).toFile(`./${username}Profile.pdf`, function(err, res) {
                 if (err) return console.log(err);
                 console.log(res); 
               });
@@ -106,7 +104,7 @@ async function getTotalStars(username){
     try{
     const starUrl = `https://api.github.com/users/${username}/starred?per_page=100`
     await axios.get(starUrl).then(function(res){
-        return(res.data.length);
+        console.log(res.data.length);
     })
     } catch (err) {
         console.log(err);
